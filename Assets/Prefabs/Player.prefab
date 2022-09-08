@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4658409011606230243}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -512695195
+  m_SortingLayerID: 1391637771
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1b4a8fdd39d3a45d0a9ee484ad6800ec, type: 3}
@@ -146,5 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 8.01
   _laserPrefab: {fileID: 2035754465992002267, guid: 73d9b750011ff444cb99844dae7416ca, type: 3}
+  _tripleShotPrefab: {fileID: 0}
   _fireRate: 0.5
   _lives: 3
+  _isTripleShotActive: 0
