@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
     }
     public void DisableSpeedBoost()
     {
-        _speed = 5;
+        _speed /= _speedMultiplier;
     }
     public void ShieldBoostActive()
     {
