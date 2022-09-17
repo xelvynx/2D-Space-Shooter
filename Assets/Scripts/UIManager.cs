@@ -25,12 +25,6 @@ public class UIManager : MonoBehaviour
             Debug.LogError("Game Manager is NULL");
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void UpdateScoreText(int playerScore) 
     {
 

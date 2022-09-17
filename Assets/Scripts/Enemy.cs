@@ -6,11 +6,25 @@ public class Enemy : MonoBehaviour
 {
     private float _speed = 4;
     private Player _player;
+    private Animator _animator;
+    private Collider2D _collider2D;
 
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _animator = GetComponent<Animator>();
+        _collider2D = GetComponent<Collider2D>();
+
+        if (_animator == null)
+        {
+            Debug.LogError("Animator is NULL!");
+        }
+        if (_collider2D == null)
+        {
+            Debug.LogError("Collider is NULL!");
+        }
+
     }
 
     // Update is called once per frame
@@ -32,9 +46,9 @@ public class Enemy : MonoBehaviour
             if (player != null)
             {
                 player.Damage();
-                Destroy(this.gameObject);
+                StartCoroutine(PlayDeathAnim());
             }
- 
+
         }
 
 
@@ -45,10 +59,24 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore();
             }
-            Destroy(this.gameObject);
+            StartCoroutine(PlayDeathAnim());
+
         }
-
-
-        
     }
+    IEnumerator PlayDeathAnim()
+    {
+        _collider2D.enabled = false;
+        _animator.SetTrigger("OnEnemyDeath");
+        float timeTakes = 2.4f;
+        float elapsedTime = 0;
+        while (elapsedTime < timeTakes)
+        {
+            transform.localScale = Vector3.Lerp(transform.transform.localScale, Vector3.zero, (elapsedTime / timeTakes));
+
+            elapsedTime += .0001f;
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(this.gameObject);
+    }
+
 }
