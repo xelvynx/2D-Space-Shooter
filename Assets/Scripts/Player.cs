@@ -21,14 +21,23 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    [SerializeField] private GameObject _rightEngine;
+    [SerializeField] private GameObject _leftEngine;
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = Vector3.zero;
+        GettingComponents();
+    }
+    public void GettingComponents()
+    {
+        _rightEngine = GameObject.Find("Right_Engine");
+        _leftEngine = GameObject.Find("Left_Engine");
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-
+        _rightEngine.SetActive(false);
+        _leftEngine.SetActive(false);
         if (_spawnManager == null)
         {
             Debug.LogError("spawn manager is NULL!");
@@ -37,8 +46,15 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("UIManager is NULL!");
         }
+        if (_rightEngine == null)
+        {
+            Debug.LogError("Right_Engine == NULL!");
+        }
+        if (_leftEngine == null)
+        {
+            Debug.LogError("Left_Engine == NULL!");
+        }
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -96,6 +112,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+        PlayerHit();
         _uiManager.UpdateLivesSprite(_lives);
         if (_lives < 1)
         {
@@ -104,6 +121,20 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    public void PlayerHit()
+    {
+        if (_lives == 2)
+        {
+            _rightEngine.SetActive(true);
+            return;
+        }
+        else if (_lives == 1)
+        {
+            _leftEngine.SetActive(true);
+        }
+    }
+
+
     public void TripleShotActive()
     {
         _isTripleShotActive = true;

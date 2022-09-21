@@ -6,6 +6,12 @@ public class Asteroid : MonoBehaviour
 {
     private int _speed = 10;
     [SerializeField] private GameObject _explosionPrefab;
+    [SerializeField] private SpawnManager _spawnManager;
+
+    public void Start()
+    {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -18,6 +24,7 @@ public class Asteroid : MonoBehaviour
         if (other.tag == "Laser")
         {
             Instantiate(_explosionPrefab, transform.position,Quaternion.identity);
+            _spawnManager.StartSpawning();
             Destroy(other.gameObject);
             Destroy(this.gameObject, .25f);
         }
