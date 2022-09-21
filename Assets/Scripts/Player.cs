@@ -24,6 +24,11 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _rightEngine;
     [SerializeField] private GameObject _leftEngine;
 
+    [Header("Audio")]
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _laserSoundClip;
+    [SerializeField] private AudioClip _powerupSoundClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +37,7 @@ public class Player : MonoBehaviour
     }
     public void GettingComponents()
     {
+        _audioSource = GetComponent<AudioSource>();
         _rightEngine = GameObject.Find("Right_Engine");
         _leftEngine = GameObject.Find("Left_Engine");
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -53,6 +59,14 @@ public class Player : MonoBehaviour
         if (_leftEngine == null)
         {
             Debug.LogError("Left_Engine == NULL!");
+        }
+        if (_audioSource == null)
+        {
+            Debug.LogError("AUDIO SOURCE IS NULL");
+        }
+        else
+        {
+            _audioSource.clip = _laserSoundClip;
         }
     }
     // Update is called once per frame
@@ -100,6 +114,7 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         }
+        _audioSource.Play();
     }
 
     public void Damage()
@@ -164,5 +179,11 @@ public class Player : MonoBehaviour
     {
         _score += 10;
         _uiManager.UpdateScoreText(_score);
+    }
+    public void PlayPowerupSoundClip()
+    {
+        _audioSource.clip = _powerupSoundClip;
+        _audioSource.Play();
+        _audioSource.clip = _laserSoundClip;
     }
 }

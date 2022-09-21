@@ -8,14 +8,18 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private Animator _animator;
     private Collider2D _collider2D;
-
+    private AudioSource _audioSource; 
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
         _animator = GetComponent<Animator>();
         _collider2D = GetComponent<Collider2D>();
-
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("AUDIO SOURCE IS NULL");
+        }
         if (_animator == null)
         {
             Debug.LogError("Animator is NULL!");
@@ -65,17 +69,10 @@ public class Enemy : MonoBehaviour
     }
     IEnumerator PlayDeathAnim()
     {
+        _audioSource.Play();
         _collider2D.enabled = false;
         _animator.SetTrigger("OnEnemyDeath");
-        float timeTakes = 2.4f;
-        float elapsedTime = 0;
-        while (elapsedTime < timeTakes)
-        {
-            transform.localScale = Vector3.Lerp(transform.transform.localScale, Vector3.zero, (elapsedTime / timeTakes));
-
-            elapsedTime += .0001f;
-            yield return new WaitForEndOfFrame();
-        }
+        yield return new WaitForSeconds(2.5f);
         Destroy(this.gameObject);
     }
 
