@@ -27,7 +27,8 @@ public class Player : MonoBehaviour
     [Header("Audio")]
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _laserSoundClip;
-    [SerializeField] private AudioClip _powerupSoundClip;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
-       
+
     }
 
     private void CalculateMovement()
@@ -104,8 +105,8 @@ public class Player : MonoBehaviour
 
     private void FireLaser()
     {
+        _audioSource.Play();
         _canFire = Time.time + _fireRate;
-
         if (_isTripleShotActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
@@ -114,7 +115,6 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         }
-        _audioSource.Play();
     }
 
     public void Damage()
@@ -127,7 +127,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
-        PlayerHit();
+        CheckEngine();
         _uiManager.UpdateLivesSprite(_lives);
         if (_lives < 1)
         {
@@ -136,8 +136,9 @@ public class Player : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    public void PlayerHit()
+    public void CheckEngine()
     {
+        
         if (_lives == 2)
         {
             _rightEngine.SetActive(true);
@@ -180,10 +181,7 @@ public class Player : MonoBehaviour
         _score += 10;
         _uiManager.UpdateScoreText(_score);
     }
-    public void PlayPowerupSoundClip()
-    {
-        _audioSource.clip = _powerupSoundClip;
-        _audioSource.Play();
-        _audioSource.clip = _laserSoundClip;
-    }
+
+    
+
 }
