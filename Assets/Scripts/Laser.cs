@@ -12,7 +12,7 @@ public class Laser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isEnemyLaser==true)
+        if (isEnemyLaser)
         {
             MoveDown();
         }
@@ -41,7 +41,7 @@ public class Laser : MonoBehaviour
     public void MoveDown()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
-        if (transform.position.y <= -8)
+        if (transform.position.y < -8)
         {
             if (transform.parent != null)
             {
