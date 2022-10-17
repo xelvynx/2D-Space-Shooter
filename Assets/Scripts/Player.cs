@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
     private UIManager _uiManager;
+    [SerializeField] private GameObject _thruster;
     [SerializeField] private GameObject _rightEngine;
     [SerializeField] private GameObject _leftEngine;
 
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour
     }
     public void GettingComponents()
     {
+        _thruster = GameObject.Find("Thruster");
+       
         _audioSource = GetComponent<AudioSource>();
         _rightEngine = GameObject.Find("Right_Engine");
         _leftEngine = GameObject.Find("Left_Engine");
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour
         _uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         _rightEngine.SetActive(false);
         _leftEngine.SetActive(false);
+        _thruster.SetActive(false);
         if (_spawnManager == null)
         {
             Debug.LogError("spawn manager is NULL!");
@@ -101,8 +105,27 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.3f, transform.position.y, 0);
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            EnableThrusters();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            DisableThrusters();
+        }
     }
 
+    public void EnableThrusters()
+    {
+        _speed += 3;
+        _thruster.SetActive(true);
+    }
+    public void DisableThrusters()
+    {
+        _speed -= 3;
+        _thruster.SetActive(false);
+    }
     private void FireLaser()
     {
         _audioSource.Play();
